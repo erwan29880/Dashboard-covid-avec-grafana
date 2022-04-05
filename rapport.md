@@ -2,12 +2,12 @@
 
 > Afin de préparer une stack facilement déployable pour l'équipe de dev, les analystes data et le client, votre chef de projet vous demande de préparer des conteneurs pour des outils de Dataviz. Après discution avec la haute autorité de santé, votre client, les technologies retenues sont MySQL et GRAFANA. Le serveur est en Linux.
 
-### **Introduction**  
+### **Sommaire**  
 
-Le projet initial ne demande pas de docker-compose, ni d'export de container avec les données persistantes associées.  
-Toute programmation supplémentaire nécessite un budget supplémentaire, il est décidé de créer les containers à partir d'une image mysql et d'une image grafana/grafana. La 'dataviz' se fait en localhost pour valider le projet, afin de programmer un export/déploiement de container.
+- manier les containers
+- utilisation de docker-compose
 
-> choix personnel : le fait de taper les codes manuellement sans fichier yaml pour docker-compose me semble dans l'immédiat une meilleure approche pour docker, en effet la connaissance des commandes facilite grandement par la suite la rédaction d'un fichier yaml, et évite les copier-coller.  
+# **Manier les containers**
 
 ## **Back-end**
 
@@ -44,8 +44,8 @@ création du réseau :
     
       
 création des images hors run :
-- docker create volume mysql
-- docker create volume mysql_config 
+- docker volume create mysql
+- docker volume create mysql_config 
     
    
 création du dossier pour grafana (mode root)
@@ -91,7 +91,7 @@ Sur l'interface graphique de grafana sur localhost:3000, il faut renseigner l'ut
 
 L'interface propose une connexion à une base de données mysql ; les données suivantes sont renseignées :
 - host : mysqldb:3306
-- database : country_vaccination
+- database : vaccinations
 
 La connexion étant opérationnelle, deux graphiques sont créés à partir de deux interfaces 'panels' de grafana, tel que demandé, à partir de requêtes sql.
 
@@ -106,10 +106,23 @@ La connexion étant opérationnelle, deux graphiques sont créés à partir de d
 
 
 
+# **Docker-compose**
+
+un premier apprentissage ayant été réalisé sous docker, un fichier docker-compose en yaml est édité afin de simplifier l'éxécution de l'ensemble.
+
+Les volumes mysql et mysql_config sont repris. Le troisième volume de mysql n'est pas repris, en effet la base de données est déja importée dans le volume mysql dans la première partie.   
+Le volume créé pour grafana ne fonctionne pas, en effet une vérification regex de docker-compose n'autorise que chiffres, lettres et les deux tirets. Un volume grafana est donc créé.  
+
+L'interface de mysql garde donc se persistance ; pour grafana, il suffit de refaire la connexion à la base de données, ainsi que les deux requêtes. La persistance fonctionne.
+
+
+
 ## **Conclusion**  
 
-Cette première approche sans docker compose est pour moi intéressante, afin de bien évaluer ce qui fonctionne, ce qui ne fonctionne pas, pour les run des containers.
-Cela aide aussi à mémoriser les options, s'habituer à l'architecture des containers et de l'architecture de la machine hôte.
+Cette première approche sans docker compose est intéressante, afin de bien évaluer ce qui fonctionne, ce qui ne fonctionne pas, pour les run des containers.
+Cela aide aussi à mémoriser les options, s'habituer à l'architecture des containers et de l'architecture de la machine hôte.  
+
+La deuxième approche avec docker-compose est alors plus évidente à appréhender.  
 
 Grafana semble intéressant en interface front-end afin d'avoir des graphiques facilement modulables en première approche, avec uniquement des requêtes sql, en container, et sans beaucoup de lignes de code.
 

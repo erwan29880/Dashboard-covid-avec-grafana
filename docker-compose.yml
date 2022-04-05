@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+
+    # grafana used for graphing mysql data
+  front:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - grafana:/var/lib/grafana
+    ports:
+      - '3000:3000'
+    networks:
+      - mysqlnet
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=pa
+
+    
+  
+  mysqldb:
+    image: mysql
+    container_name: mysqldb2
+    volumes:
+      - mysql:/var/lib/mysql
+      - mysql_config:/etc/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - mysqlnet
+    environment:
+      - MYSQL_ROOT_PASSWORD=pa
+    
+      
+volumes:
+  mysql:
+    external: true
+  mysql_config:
+    external: true
+  grafana:
+    external : true
+
+
+networks:
+  mysqlnet:
+

@@ -7,6 +7,7 @@
 Le projet initial ne demande pas de docker-compose, ni d'export de container avec les données persistantes associées.  
 Toute programmation supplémentaire nécessite un budget supplémentaire, il est décidé de créer les containers à partir d'une image mysql et d'une image grafana/grafana. La 'dataviz' se fait en localhost pour valider le projet, afin de programmer un export/déploiement de container.
 
+> choix personnel : le fait de taper les codes manuellement sans fichier yaml pour docker-compose me semble dans l'immédiat une meilleure approche pour docker, en effet la connaissance des commandes facilite grandement par la suite la rédaction d'un fichier yaml, et évite les copier-coller.  
 
 ## **Back-end**
 
@@ -107,7 +108,7 @@ La connexion étant opérationnelle, deux graphiques sont créés à partir de d
 
 ## **Conclusion**  
 
-Cette première approche sans docker compose est ppour moi intéressante, afin de bien évaluer ce qui fonctionne, ce qui ne fonctionne pas, pour les run des containers.
+Cette première approche sans docker compose est pour moi intéressante, afin de bien évaluer ce qui fonctionne, ce qui ne fonctionne pas, pour les run des containers.
 Cela aide aussi à mémoriser les options, s'habituer à l'architecture des containers et de l'architecture de la machine hôte.
 
 Grafana semble intéressant en interface front-end afin d'avoir des graphiques facilement modulables en première approche, avec uniquement des requêtes sql, en container, et sans beaucoup de lignes de code.

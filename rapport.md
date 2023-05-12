@@ -1,13 +1,7 @@
 # **Un tableau de bord sur la covid**
 
-> Afin de préparer une stack facilement déployable pour l'équipe de dev, les analystes data et le client, votre chef de projet vous demande de préparer des conteneurs pour des outils de Dataviz. Après discution avec la haute autorité de santé, votre client, les technologies retenues sont MySQL et GRAFANA. Le serveur est en Linux.
+> Dataviz avec Grafana et mysql
 
-### **Sommaire**  
-
-- manier les containers
-- utilisation de docker-compose
-
-# **Manier les containers**
 
 ## **Back-end**
 
@@ -93,7 +87,7 @@ L'interface propose une connexion à une base de données mysql ; les données s
 - host : mysqldb:3306
 - database : vaccinations
 
-La connexion étant opérationnelle, deux graphiques sont créés à partir de deux interfaces 'panels' de grafana, tel que demandé, à partir de requêtes sql.
+La connexion étant opérationnelle, deux graphiques sont créés à partir de deux interfaces 'panels' de grafana à partir de requêtes sql.
 
 
 ### **Pays dans lesquels il y a plus de 100.000.000 de personnes vaccinées :**  
@@ -103,27 +97,3 @@ La connexion étant opérationnelle, deux graphiques sont créés à partir de d
 ### **Evolution de la vaccination sous forme de série temporelle :** 
 
 ![Getting Started](./images/graphique3.png)
-
-
-
-# **Docker-compose**
-
-un premier apprentissage ayant été réalisé sous docker, un fichier docker-compose en yaml est édité afin de simplifier l'éxécution de l'ensemble.
-
-Les volumes mysql et mysql_config sont repris. Le troisième volume de mysql n'est pas repris, en effet la base de données est déja importée dans le volume mysql dans la première partie.   
-Le volume créé pour grafana ne fonctionne pas, en effet une vérification regex de docker-compose n'autorise que chiffres, lettres et les deux tirets. Un volume grafana est donc créé.  
-
-L'interface de mysql garde donc se persistance ; pour grafana, il suffit de refaire la connexion à la base de données, ainsi que les deux requêtes. La persistance fonctionne.
-
-
-
-## **Conclusion**  
-
-Cette première approche sans docker compose est intéressante, afin de bien évaluer ce qui fonctionne, ce qui ne fonctionne pas, pour les run des containers.
-Cela aide aussi à mémoriser les options, s'habituer à l'architecture des containers et de l'architecture de la machine hôte.  
-
-La deuxième approche avec docker-compose est alors plus évidente à appréhender.  
-
-Grafana semble intéressant en interface front-end afin d'avoir des graphiques facilement modulables en première approche, avec uniquement des requêtes sql, en container, et sans beaucoup de lignes de code.
-
-Néanmoins, pour de l'analyse, le langage python, associé à sql, permet de manipuler plus facilement des données, même si l'affichage python des données demande plus de code que l'utilisation de grafana.
